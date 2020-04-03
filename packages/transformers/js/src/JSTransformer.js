@@ -42,6 +42,8 @@ const CONFIG_SCHEMA: SchemaEntity = {
   additionalProperties: false,
 };
 
+import esCommonjsPlugin from '@babel/plugin-transform-modules-commonjs';
+
 const IMPORT_RE = /\b(?:import\b|export\b|require\s*\()/;
 const ENV_RE = /\b(?:process\.env)\b/;
 const BROWSER_RE = /\b(?:process\.browser)\b/;

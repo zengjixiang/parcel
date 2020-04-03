@@ -341,7 +341,10 @@ export function getHelpers(): Map<string, Statement> {
   }
 
   let helpersPath = path.join(__dirname, 'helpers.js');
-  let statements = parse(fs.readFileSync(helpersPath, 'utf8'), helpersPath);
+  let statements = parse(
+    fs.readFileSync(path.join(__dirname, 'helpers.js'), 'utf8'),
+    helpersPath,
+  );
 
   helpersCache = new Map();
   for (let statement of statements) {

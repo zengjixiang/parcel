@@ -1,0 +1,35 @@
+html {
+  box-sizing: border-box;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Ubuntu, Arial, sans-serif;
+  margin: 0;
+
+  --color: white;
+  --background-dark: #0a1117;
+  --background-light: #111d27;
+  --background-editor: #282d33; /* CodeMirror's background */
+}
+* {
+  box-sizing: inherit;
+}
+
+html,
+body,
+#root,
+main {
+  height: 100vh;
+  margin: 0;
+}
+
+code,
+pre,
+.cm-wrap .cm-scroller {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 14px;
+}
+.cm-wrap {
+  font-size: 14px;
+}
+
+@import './main.css';
+@import './app.css';

@@ -5,6 +5,9 @@ import type {BabelConfig} from './types';
 
 import path from 'path';
 
+// flowlint-next-line untyped-import:off
+import preset from '@babel/preset-react';
+
 const JSX_EXTENSIONS = {
   '.jsx': true,
   '.tsx': true,
@@ -64,7 +67,8 @@ export default async function getJSXOptions(
       config: {
         presets: [
           [
-            '@babel/preset-react',
+            // '@babel/preset-react',
+            preset,
             {pragma, pragmaFrag, development: options.mode === 'development'},
           ],
         ],

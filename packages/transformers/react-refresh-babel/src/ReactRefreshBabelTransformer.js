@@ -2,6 +2,7 @@
 
 import {Transformer} from '@parcel/plugin';
 import invariant from 'assert';
+import reactRefreshBabelPlugin from 'react-refresh/babel';
 
 async function shouldExclude(config, options) {
   if (
@@ -27,7 +28,8 @@ export default (new Transformer({
       asset.meta.babelPlugins = asset.meta.babelPlugins || [];
       invariant(Array.isArray(asset.meta.babelPlugins));
       asset.meta.babelPlugins.push([
-        require.resolve('react-refresh/babel'),
+        // require.resolve('react-refresh/babel'),
+        reactRefreshBabelPlugin,
         {skipEnvCheck: true},
       ]);
     }

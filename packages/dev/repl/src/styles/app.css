@@ -1,0 +1,237 @@
+@import './file-browser.css';
+@import './options.css';
+html {
+  box-sizing: border-box;
+}
+* {
+  box-sizing: inherit;
+}
+
+html {
+  --color: white;
+  --background-dark: #0a1117;
+  --background-light: #111d27;
+  --background-editor: #282d33;
+
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Ubuntu, Arial, sans-serif;
+  margin: 0;
+  background-color: var(--background-light);
+  color: var(--color);
+}
+
+button {
+  appearance: none;
+  border: none;
+  color: var(--color);
+  user-select: none;
+  background: var(--background-dark);
+}
+button:disabled {
+  filter: brightness(0.5);
+}
+
+.cm-focused {
+  outline: none !important;
+}
+
+.editor,
+pre {
+  background-color: var(--background-editor);
+}
+
+main {
+  display: grid;
+  align-items: stretch;
+  grid-template-columns: 15em minmax(0, 1.2fr) minmax(0, 1fr);
+  grid-template-areas: 'browser editor output';
+}
+main > div {
+  min-height: 0;
+}
+main > div:last-of-type {
+  grid-area: output;
+  overflow: auto;
+}
+
+.file-browser {
+  grid-area: browser;
+}
+
+.editors {
+  grid-area: editor;
+  background: var(--background-dark);
+  display: flex;
+  flex-direction: column;
+}
+
+.editors:not(.tabs) {
+  overflow-y: auto;
+}
+
+.editors .switcher {
+  display: flex;
+  justify-content: flex-start;
+  overflow-x: auto;
+}
+
+.editors .switcher div,
+.view .name {
+  flex-grow: 1;
+  text-align: center;
+  padding: 0.4em 0.3em;
+  display: flex;
+  justify-content: space-between;
+}
+.editors .switcher div {
+  max-width: calc(max(15em, 33%));
+}
+.editors .switcher div.selected {
+  background-color: var(--background-editor);
+}
+
+.switcher div button,
+.view .name button {
+  width: 16px;
+  height: 16px;
+  margin-top: auto;
+
+  background: url(../assets/remove.svg) 50% no-repeat;
+}
+
+.editors .switcher div button.modified,
+.editors .view .name button.modified {
+  background: url(../assets/circle.svg) 50% no-repeat;
+}
+
+.editors .content {
+  flex: 1;
+  background: var(--background-editor);
+  overflow-y: auto;
+}
+.editors .content .editor,
+.editors .content .editor .cm-wrap {
+  height: 100%;
+}
+
+.editors .help {
+  user-select: none;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type='text'],
+select {
+  padding: 0.1em 0.2em;
+}
+
+.output {
+  padding: 0.5em;
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.output .header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+}
+.output .header button {
+  flex: 1;
+  padding: 0.5em 3em;
+  color: var(--color);
+}
+.output .status {
+  padding: 0.3em;
+  text-align: center;
+  user-select: none;
+  transition: background-color 0.3s;
+}
+
+.output .build-error .content {
+  white-space: pre;
+  font-family: monospace;
+  overflow-y: scroll;
+
+  color: red;
+
+  padding: 0.3em;
+}
+
+.output .files {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.output .files .tabs {
+  background-color: var(--background-dark);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.output .files .tabs > .switcher {
+  display: flex;
+  padding-bottom: 0.5em;
+}
+
+.output .files .tabs > .switcher div {
+  background-color: var(--background-light);
+  flex: 1;
+  text-align: center;
+  padding: 0.4em 0em;
+}
+.output .files .tabs > .switcher div.selected {
+  background-color: var(--background-dark);
+}
+.output .files .tabs > :not(.switcher) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.output .files .tabs .views {
+  flex: 1;
+}
+
+.output .graphs {
+  padding: 0.5em;
+}
+.output .graphs > div {
+  padding-top: 0.5em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+.output .graphs button {
+  background: var(--background-light);
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.preview .controls {
+  display: flex;
+}
+.preview button {
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+.preview button.reload {
+  margin: 0;
+  width: 100%;
+}
+.preview .file {
+  width: 100%;
+}
+.preview iframe {
+  width: 100%;
+  border: none;
+  flex: 1;
+  background: white;
+}

@@ -11,7 +11,7 @@ import type {LoadedPlugin} from '../ParcelConfig';
 import type {RunAPI} from '../RequestTracker';
 
 import crypto from 'crypto';
-import v8 from 'v8';
+import {serializeRaw} from '../serializer.js';
 import {PluginLogger} from '@parcel/logger';
 import PluginOptions from '../public/PluginOptions';
 import ThrowableDiagnostic, {errorToDiagnostic} from '@parcel/diagnostic';
@@ -139,8 +139,7 @@ export async function getConfigHash(
       );
     } else if (config.result != null) {
       try {
-        // $FlowFixMe
-        hash.update(v8.serialize(config.result));
+        hash.update(serializeRaw(config.result));
       } catch (err) {
         throw new ThrowableDiagnostic({
           diagnostic: {

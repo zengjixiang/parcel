@@ -13,8 +13,64 @@ import path from 'path';
 import invariant from 'assert';
 import {normalizeSeparators} from '@parcel/utils';
 
-const builtins = {pnpapi: true};
-for (let builtin of Module.builtinModules) {
+const builtins: {[string]: boolean} = {pnpapi: true};
+// for (let builtin of Module.builtinModules) {
+for (let builtin of [
+  '_http_agent',
+  '_http_client',
+  '_http_common',
+  '_http_incoming',
+  '_http_outgoing',
+  '_http_server',
+  '_stream_duplex',
+  '_stream_passthrough',
+  '_stream_readable',
+  '_stream_transform',
+  '_stream_wrap',
+  '_stream_writable',
+  '_tls_common',
+  '_tls_wrap',
+  'assert',
+  'async_hooks',
+  'buffer',
+  'child_process',
+  'cluster',
+  'console',
+  'constants',
+  'crypto',
+  'dgram',
+  'dns',
+  'domain',
+  'events',
+  'fs',
+  'http',
+  'http2',
+  'https',
+  'inspector',
+  'module',
+  'net',
+  'os',
+  'path',
+  'perf_hooks',
+  'process',
+  'punycode',
+  'querystring',
+  'readline',
+  'repl',
+  'stream',
+  'string_decoder',
+  'sys',
+  'timers',
+  'tls',
+  'trace_events',
+  'tty',
+  'url',
+  'util',
+  'v8',
+  'vm',
+  'worker_threads',
+  'zlib',
+]) {
   builtins[builtin] = true;
 }
 
@@ -47,7 +103,10 @@ export class NodeResolverBase<T> {
 
   constructor(fs: FileSystem, extensions?: Array<string>) {
     this.fs = fs;
-    this.extensions = extensions || Object.keys(Module._extensions);
+    this.extensions =
+      extensions ||
+      // $FlowFixMe
+      (process.browser ? ['.js', '.json'] : Object.keys(Module._extensions));
     this.packageCache = new Map();
   }
 

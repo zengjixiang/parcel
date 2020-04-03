@@ -7,6 +7,8 @@ import type {Targets as BabelTargets, PresetEnvPlugin} from '@babel/preset-env';
 
 import getBabelTargets from './getBabelTargets';
 import {enginesToBabelTargets} from './utils';
+// flowlint-next-line untyped-import:off
+import preset from '@parcel/babel-preset-env';
 
 /**
  * Generates a @babel/preset-env config for an asset.
@@ -42,7 +44,12 @@ export default async function getEnvOptions(
 
   return {
     targets: appBabelTargets,
-    config: {presets: ['@parcel/babel-preset-env']},
+    config: {
+      presets: [
+        // '@parcel/babel-preset-env'
+        preset,
+      ],
+    },
   };
 }
 
