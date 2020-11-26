@@ -361,6 +361,9 @@ export default class AssetGraph extends Graph<AssetGraphNode> {
     invariant(assetGroupNode.type === 'asset_group');
     assetGroupNode.correspondingRequest = correspondingRequest;
 
+    // TODO both JS assets have the same ID
+    console.log('resolveAssetGroup', assetGroup, assets);
+
     let dependentAssetKeys = [];
     let assetObjects: Array<{|
       assetNode: AssetNode,

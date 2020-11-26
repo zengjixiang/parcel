@@ -33,7 +33,7 @@ export default (new Transformer({
   },
 
   async parse({asset, config, options}) {
-    if (!config) {
+    if (!config && !asset.meta.cssModule) {
       return;
     }
 
@@ -54,8 +54,12 @@ export default (new Transformer({
 
   async transform({asset, config, options, resolve}) {
     asset.type = 'css';
-    if (!config) {
+    if (!config && !asset.meta.cssModule) {
       return [asset];
+    }
+
+    if (!config) {
+      config = {hydrated: {plugins: [], modules: true}};
     }
 
     let postcss = await options.packageManager.require(
@@ -65,7 +69,7 @@ export default (new Transformer({
     );
 
     let plugins = [...config.hydrated.plugins];
-    if (config.hydrated.modules) {
+    if (config.hydrated.modules || asset.meta.cssModule) {
       let postcssModules = await options.packageManager.require(
         'postcss-modules',
         asset.filePath,
