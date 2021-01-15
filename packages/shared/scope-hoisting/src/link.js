@@ -37,7 +37,6 @@ import {convertBabelLoc} from '@parcel/babel-ast-utils';
 import globals from 'globals';
 import {
   assertString,
-  getName,
   getHelpers,
   getIdentifier,
   getThrowableDiagnosticForNode,
@@ -496,8 +495,10 @@ export function link({
       originalName === 'default' &&
       needsDefaultInterop(bundleGraph, bundle, mod)
     ) {
-      let name = getName(mod, '$interop$default');
-      return t.identifier(name);
+      return t.memberExpression(
+        getIdentifier(mod, '$interop$default'),
+        t.identifier('default'),
+      );
     }
 
     // if there is a CommonJS export return $id$exports.name

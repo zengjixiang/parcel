@@ -1,4 +1,13 @@
-function $parcel$interopDefault(a) {
+function $parcel$interopDefault(a, i) {
+  if (i) {
+    return Object.defineProperty({}, 'default', {
+      enumerable: true,
+      get: function get() {
+        return $parcel$interopDefault(i());
+      },
+    });
+  }
+
   return a && a.__esModule ? a.default : a;
 }
 

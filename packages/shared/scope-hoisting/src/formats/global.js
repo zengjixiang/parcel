@@ -44,10 +44,10 @@ const IMPORTSCRIPTS_TEMPLATE = template.statement<
 const DEFAULT_INTEROP_TEMPLATE = template.statement<
   {|
     NAME: LVal,
-    MODULE: Expression,
+    INIT: Expression,
   |},
   VariableDeclaration,
->('var NAME = $parcel$interopDefault(MODULE);');
+>('var NAME = $parcel$interopDefault(null, INIT);');
 
 export function generateBundleImports(
   bundleGraph: BundleGraph<NamedBundle>,
@@ -85,7 +85,7 @@ export function generateBundleImports(
         statements.push(
           DEFAULT_INTEROP_TEMPLATE({
             NAME: getIdentifier(asset, '$interop$default'),
-            MODULE: t.callExpression(getIdentifier(asset, 'init'), []),
+            INIT: getIdentifier(asset, 'init'),
           }),
         );
 
