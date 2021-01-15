@@ -8,7 +8,7 @@ function $parcel$interopDefault(a, i) {
     });
   }
 
-  return a && a.__esModule ? a.default : a;
+  return a && a.__esModule ? a : {default: a};
 }
 
 function $parcel$defineInteropFlag(a) {
