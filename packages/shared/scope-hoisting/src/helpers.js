@@ -3,7 +3,7 @@ function $parcel$interopDefault(a, i) {
     return Object.defineProperty({}, 'default', {
       enumerable: true,
       get: function get() {
-        return $parcel$interopDefault(i());
+        return $parcel$interopDefault(i()).default;
       },
     });
   }
