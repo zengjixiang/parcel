@@ -70,3 +70,4 @@ export {
   loadSourceMapUrl,
   loadSourceMap,
 } from './sourcemap';
+export {getProgressMessage} from './reporters';
