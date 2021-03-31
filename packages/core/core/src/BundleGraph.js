@@ -1480,4 +1480,12 @@ export default class BundleGraph {
       )
       .some(n => n.type === 'root');
   }
+
+  getMainBundle(bundleGroup: BundleGroup): Bundle {
+    return nullthrows(
+      this.getBundlesInBundleGroup(bundleGroup).find(
+        b => b.mainEntryId === bundleGroup.entryAssetId,
+      ),
+    );
+  }
 }
