@@ -1,13 +1,15 @@
 // @flow strict-local
 
 import type {
+  Asset,
   AsyncSubscription,
   BuildEvent,
   BuildSuccessEvent,
+  DependencyOptions,
   InitialParcelOptions,
   PackagedBundle as IPackagedBundle,
 } from '@parcel/types';
-import type {ParcelOptions} from './types';
+import type {ParcelOptions, AssetRequestInput, AssetGroup} from './types';
 // eslint-disable-next-line no-unused-vars
 import type {FarmOptions, SharedReference} from '@parcel/workers';
 import type {Diagnostic} from '@parcel/diagnostic';
@@ -37,6 +39,10 @@ import RequestTracker, {getWatcherOptions} from './RequestTracker';
 import createAssetGraphRequest from './requests/AssetGraphRequest';
 import createValidationRequest from './requests/ValidationRequest';
 import createBundleGraphRequest from './requests/BundleGraphRequest';
+import createAssetRequest from './requests/AssetRequest';
+import {createDependency} from './Dependency';
+import {createEnvironment} from './Environment';
+import createPathRequest from './requests/PathRequest';
 import {Disposable} from '@parcel/events';
 
 registerCoreWithSerializer();
@@ -167,6 +173,10 @@ export default class Parcel {
   }
 
   async _end(): Promise<void> {
+    if (!this.#initialized) {
+      return;
+    }
+
     this.#initialized = false;
 
     await Promise.all([
@@ -440,6 +450,31 @@ export default class Parcel {
   takeHeapSnapshot(): Promise<void> {
     logger.info({origin: '@parcel/core', message: 'Taking heap snapshot...'});
     return this.#farm.takeHeapSnapshot();
+  }
+
+  async transform(request: AssetRequestInput): Promise<Array<Asset>> {
+    if (!this.#initialized) {
+      await this._init();
+    }
+
+    request.optionsRef = this.#optionsRef;
+    let req = createAssetRequest(request);
+    let res = await this.#requestTracker.runRequest(req, {force: true});
+    return res.map(asset => assetFromValue(asset, nullthrows(this.#resolvedOptions)));
+  }
+
+  async resolve(request: DependencyOptions): Promise<?AssetGroup> {
+    if (!this.#initialized) {
+      await this._init();
+    }
+
+    let dep = createDependency(request);
+    let req = createPathRequest({
+      dependency: dep,
+      name: 'test'
+    });
+    let res = await this.#requestTracker.runRequest(req, {force: true});
+    return res;
   }
 }
 
