@@ -32,6 +32,6 @@
   "scripts": {
     "build": "napi build --cargo-name parcel_js_swc_napi --cargo-flags '\\--package parcel_js_swc_napi' --platform",
     "build-release": "napi build --cargo-name parcel_js_swc_napi --cargo-flags '\\--package parcel_js_swc_napi' --platform --release",
-    "build:wasm": ""
+    "build:wasm": "wasm-pack build wasm --target nodejs --no-typescript --release"
   }
 }
