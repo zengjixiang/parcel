@@ -554,21 +554,35 @@ dependencies = [
 ]
 
 [[package]]
-name = "parcel-js-swc"
+name = "parcel-js-swc-wasm"
+version = "0.1.0"
+dependencies = [
+ "parcel_js_swc_core",
+]
+
+[[package]]
+name = "parcel_js_swc_core"
 version = "0.1.0"
 dependencies = [
  "Inflector",
  "data-encoding",
  "indoc",
- "napi",
- "napi-build",
- "napi-derive",
  "serde",
  "sha-1",
  "swc_atoms",
  "swc_common",
  "swc_ecma_preset_env",
  "swc_ecmascript",
+]
+
+[[package]]
+name = "parcel_js_swc_napi"
+version = "0.1.0"
+dependencies = [
+ "napi",
+ "napi-build",
+ "napi-derive",
+ "parcel_js_swc_core",
 ]
 
 [[package]]

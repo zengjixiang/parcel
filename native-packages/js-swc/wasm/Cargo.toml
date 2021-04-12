@@ -1,0 +1,11 @@
+[package]
+name = "parcel-js-swc-wasm"
+authors = ["Devon Govett <devongovett@gmail.com>"]
+version = "0.1.0"
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+parcel_js_swc_core = { path = "../core" }

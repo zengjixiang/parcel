@@ -1,23 +1,7 @@
-[package]
-authors = ["Devon Govett <devongovett@gmail.com>"]
-name = "parcel-js-swc"
-version = "0.1.0"
+[workspace]
 
-[lib]
-crate-type = ["cdylib"]
-
-[dependencies]
-napi = { git = "https://github.com/napi-rs/napi-rs", branch = "main", features = ["serde-json"] }
-napi-derive = { git = "https://github.com/napi-rs/napi-rs", branch = "main" }
-swc_ecmascript = { version = "0.29.1", features = ["parser", "transforms", "module", "optimization", "react", "typescript", "utils", "visit", "codegen", "utils"] }
-swc_ecma_preset_env = { version = "0.13.0" }
-swc_common = { version = "0.10.13", features = ["tty-emitter", "sourcemap"] }
-swc_atoms = "*"
-indoc = "1.0.3"
-serde = "1.0.123"
-Inflector = "0.11.4"
-data-encoding = "2.3.2"
-sha-1 = "0.9.4"
-
-[build-dependencies]
-napi-build = { git = "https://github.com/napi-rs/napi-rs", branch = "main" }
+members = [
+  "core",
+  "napi",
+  "wasm",
+]
