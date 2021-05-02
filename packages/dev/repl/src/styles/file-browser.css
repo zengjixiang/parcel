@@ -1,19 +1,23 @@
-.file-browser button {
-  background: none;
-  padding: 0;
+.file-browser  {
+  background: var(--background-header);
+}
+.file-browser > div {
+  border-radius: var(--radius);
+  background: white;
+  margin: var(--gap);
+  padding: 0.4em 0;
 }
 
-.file-browser > .header,
-.file-browser > .presets,
-.file-browser > .options {
+.file-browser .header,
+.file-browser .presets,
+.file-browser .options {
   padding: 0.4em;
 }
 
 .file-browser .header {
-  background: var(--background-dark);
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.2em;
+  border-bottom: 2px solid var(--background-light);
 }
 
 .file-browser .presets {
@@ -22,31 +26,21 @@
   user-select: none;
 }
 
-.file-browser > .options {
+.file-browser .options {
   display: flex;
   justify-content: space-between;
 }
-.file-browser > .options > .options {
-  font: inherit;
-}
-.file-browser > .options > .options:hover {
-  background: var(--background-dark);
-}
-
-.file-browser > .options > .view {
+.file-browser .options > .view {
   padding: 0.2em;
 }
-.file-browser > .options > .view:hover {
-  background: var(--background-dark);
-}
-.file-browser > .options > .view span {
+.file-browser .options > .view span {
   display: inline-block;
   vertical-align: middle;
   width: 16px;
   height: 16px;
   background: url(../assets/lines.svg) 50% no-repeat;
 }
-.file-browser > .options > .view.tabs span {
+.file-browser .options > .view.tabs span {
   transform: rotate(90deg);
 }
 

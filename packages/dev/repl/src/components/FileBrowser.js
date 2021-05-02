@@ -180,8 +180,9 @@ export function FileBrowser({
   return (
     <div class="file-browser">
       {children}
-      <div class="header">
-        {/*<button
+      <div>
+        <div class="header">
+          {/*<button
           onClick={async () => {
             const dirHandle = await window.showDirectoryPicker();
             for await (const entry of dirHandle.values()) {
@@ -191,26 +192,29 @@ export function FileBrowser({
         >
           Open
         </button>*/}
-        <button onClick={() => dispatch({type: 'file.addFolder'})}>
-          New Folder
-        </button>
-        <button onClick={() => dispatch({type: 'file.addFile'})}>
-          New File
-        </button>
+          <button onClick={() => dispatch({type: 'file.addFolder'})}>
+            New Folder
+          </button>
+          <button onClick={() => dispatch({type: 'file.addFile'})}>
+            New File
+          </button>
+        </div>
+        <FileBrowserFolder
+          files={files}
+          collapsed={collapsed}
+          isEditing={isEditing}
+          dispatch={dispatch}
+          onDrop={e => {
+            const data = e.dataTransfer.getData(
+              'application/x-parcel-repl-file',
+            );
+            dispatch({type: 'file.move', name: data, dir: ''});
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onDragOver={e => e.preventDefault()}
+        />
       </div>
-      <FileBrowserFolder
-        files={files}
-        collapsed={collapsed}
-        isEditing={isEditing}
-        dispatch={dispatch}
-        onDrop={e => {
-          const data = e.dataTransfer.getData('application/x-parcel-repl-file');
-          dispatch({type: 'file.move', name: data, dir: ''});
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-        onDragOver={e => e.preventDefault()}
-      />
     </div>
   );
 }

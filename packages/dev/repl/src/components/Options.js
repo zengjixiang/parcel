@@ -7,7 +7,6 @@ import type {REPLOptions} from '../utils';
 // eslint-disable-next-line no-unused-vars
 import {h} from 'preact';
 import {getDefaultTargetEnv} from '../utils';
-import {DEFAULT_OPTIONS} from './state';
 
 export function Options({
   state,
@@ -232,7 +231,6 @@ export function Options({
         >
           <option value="0">Use no nested workers</option>
           {navigator.hardwareConcurrency > 0 &&
-            DEFAULT_OPTIONS.numWorkers !== 0 &&
             new Array(navigator.hardwareConcurrency / 2).fill(0).map((_, i) => (
               <option key={i + 1} value={i + 1}>
                 Use {i + 1} nested workers

@@ -26,9 +26,9 @@ import {searchKeymap, highlightSelectionMatches} from '@codemirror/search';
 import {autocompletion, completionKeymap} from '@codemirror/autocomplete';
 import {commentKeymap} from '@codemirror/comment';
 import {rectangularSelection} from '@codemirror/rectangular-selection';
-// import {defaultHighlightStyle} from '@codemirror/highlight';
+import {defaultHighlightStyle} from '@codemirror/highlight';
 import {lintKeymap} from '@codemirror/lint';
-import {oneDark} from '@codemirror/theme-one-dark';
+// import {oneDark} from '@codemirror/theme-one-dark';
 
 import {html} from '@codemirror/lang-html';
 import {javascript} from '@codemirror/lang-javascript';
@@ -55,14 +55,14 @@ const Editor: any = memo(function Editor({
         drawSelection(),
         EditorState.allowMultipleSelections.of(true),
         indentOnInput(),
-        // defaultHighlightStyle,
+        defaultHighlightStyle,
         bracketMatching(),
         closeBrackets(),
         autocompletion(),
         rectangularSelection(),
         highlightActiveLine(),
         highlightSelectionMatches(),
-        oneDark,
+        // oneDark,
         keymap.of([
           ...closeBracketsKeymap,
           ...defaultKeymap,

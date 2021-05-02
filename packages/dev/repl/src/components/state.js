@@ -43,13 +43,13 @@ export const initialState: State = {
   browserCollapsed: new Set(),
   isEditing: null,
   options: DEFAULT_OPTIONS,
-  useTabs: true,
+  useTabs: false,
   diagnostics: new Map(),
 };
 
 function loadPreset(name = 'Javascript') {
   let preset = nullthrows(ASSET_PRESETS.get(name));
-  return {
+  let state = {
     ...initialState,
     files: new FS(preset.fs),
     options: {
@@ -57,6 +57,14 @@ function loadPreset(name = 'Javascript') {
       ...preset.options,
     },
   };
+
+  if (!state.useTabs) {
+    for (let [name] of state.files.list()) {
+      state = reducer(state, {type: 'view.open', name});
+    }
+  }
+
+  return state;
 }
 
 export const getInitialState = (): State => {
@@ -97,13 +105,25 @@ export function reducer(state: State, action: any): State {
       if (data.component) {
         return state;
       }
-      return {
+      let newState = {
         ...state,
         views: new Map([
           ...state.views,
           [action.name, {...data, value: action.value}],
         ]),
       };
+
+      // Always save immediately in list mode
+      if (!state.useTabs) {
+        let file = nullthrows(state.files.get(action.name));
+        if (file.value === action.value) return state;
+
+        newState = {
+          ...newState,
+          files: state.files.setMerge(action.name, {value: action.value}),
+        };
+      }
+      return newState;
     }
     case 'view.saveCurrent': {
       if (state.useTabs) {
@@ -119,25 +139,26 @@ export function reducer(state: State, action: any): State {
           files: state.files.setMerge(name, {value}),
         };
       } else {
-        let files = state.files;
-        for (let [name, view] of state.views) {
-          if (view.value == null) {
-            continue;
-          }
-          // $FlowFixMe
-          let value = view.value;
-          let file = nullthrows(state.files.get(name));
-          if (file.value === value) {
-            continue;
-          }
-          files = files.setMerge(name, {value});
-        }
-        if (files === state.files) return state;
+        // let files = state.files;
+        // for (let [name, view] of state.views) {
+        //   if (view.value == null) {
+        //     continue;
+        //   }
+        //   // $FlowFixMe
+        //   let value = view.value;
+        //   let file = nullthrows(state.files.get(name));
+        //   if (file.value === value) {
+        //     continue;
+        //   }
+        //   files = files.setMerge(name, {value});
+        // }
+        // if (files === state.files) return state;
 
-        return {
-          ...state,
-          files,
-        };
+        // return {
+        //   ...state,
+        //   files,
+        // };
+        return state;
       }
     }
     case 'view.closeCurrent':
@@ -151,14 +172,6 @@ export function reducer(state: State, action: any): State {
     case 'file.move': {
       let oldName = action.name;
       let newName = join(action.dir, path.basename(action.name));
-      console.log(
-        state.browserCollapsed,
-        new Set(
-          [...state.browserCollapsed].map(f =>
-            f === action.name ? newName : f,
-          ),
-        ),
-      );
       return {
         ...state,
         files: state.files.move(oldName, newName),
@@ -188,10 +201,14 @@ export function reducer(state: State, action: any): State {
       while (state.files.has(`/file${i}.js`)) {
         i++;
       }
-      return {
+      let newState = {
         ...state,
         files: state.files.set(`/file${i}.js`, {value: ''}),
       };
+      if (!state.useTabs) {
+        newState = reducer(newState, {type: 'view.open', name: `/file${i}.js`});
+      }
+      return newState;
     }
     case 'file.addFolder': {
       let i = 1;

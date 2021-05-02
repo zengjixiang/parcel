@@ -51,7 +51,8 @@ function Status({watching, status, buildProgress, buildOutput}) {
   let text, color;
   if (status === STATUS_LOADING) {
     text = 'Loading...';
-    color = '#553701';
+    color = '#D97706';
+    // color = '#553701';
   } else if (status === STATUS_IDLING) {
     if (watching) {
       if (buildDuration != null) {
@@ -66,7 +67,8 @@ function Status({watching, status, buildProgress, buildOutput}) {
         text = 'Ready';
       }
     }
-    color = '#015551';
+    color = '#059669';
+    // color = '#015551';
     // TODO: errors + "finished in 123s"
   } else if (status === STATUS_RUNNING) {
     if (buildProgress) {
@@ -74,7 +76,7 @@ function Status({watching, status, buildProgress, buildOutput}) {
     } else {
       text = 'Running...';
     }
-    color = 'black';
+    color = '#ffeb3b';
   }
 
   return (
@@ -211,9 +213,9 @@ function Output({state, dispatch}: {|state: State, dispatch: Function|}) {
             setSelected={setOutputTabIndex}
           >
             <div>
-              <div class="views">
+              <div class="list views">
                 {buildOutput.bundles.map(({name, size, content}) => (
-                  <div key={name} class="view">
+                  <div key={name} class="view selected">
                     <div class="name">
                       <span />
                       <span>{name}</span>
@@ -270,7 +272,7 @@ function Editors({state, dispatch}) {
     return (
       <Tabs
         names={names}
-        class="editors"
+        class="editors views"
         mode="hide"
         selected={state.currentView}
         setSelected={i => dispatch({type: 'view.select', index: i})}
@@ -285,13 +287,13 @@ function Editors({state, dispatch}) {
       merged.push(
         // $FlowFixMe
         <div class="view">
-          <div class="name">{names[i]}</div>
+          <div class="name selected">{names[i]}</div>
           <div class="content">{children[i]}</div>
         </div>,
       );
     }
     return (
-      <div class="editors">
+      <div class="list editors views">
         {merged}
         {children.length === 0 && <Notes />}
       </div>
@@ -340,30 +342,32 @@ function App() {
               <span style="font-size: 25px;">REPL</span>
             </a>
           </header>
-          <PresetSelector dispatch={dispatch} />
-          <div class="options">
-            <button
-              class="options"
-              onClick={() =>
-                dispatch({
-                  type: 'view.open',
-                  name: 'Options',
-                  component: Options,
-                })
-              }
-            >
-              Options
-            </button>
-            <button
-              class={'view ' + (state.useTabs ? 'tabs' : '')}
-              onClick={() =>
-                dispatch({
-                  type: 'toggleView',
-                })
-              }
-            >
-              <span></span>
-            </button>
+          <div>
+            <PresetSelector dispatch={dispatch} />
+            <div class="options">
+              <button
+                onClick={() =>
+                  dispatch({
+                    type: 'view.open',
+                    name: 'Options',
+                    component: Options,
+                  })
+                }
+              >
+                Options
+              </button>
+              <button
+                title="Toggle view"
+                class={'view ' + (state.useTabs ? 'tabs' : '')}
+                onClick={() =>
+                  dispatch({
+                    type: 'toggleView',
+                  })
+                }
+              >
+                <span></span>
+              </button>
+            </div>
           </div>
         </FileBrowser>
         <Editors state={state} dispatch={dispatch} />
