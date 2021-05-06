@@ -337,6 +337,11 @@ export default (new Transformer({
           isAsync: dep.kind === 'DynamicImport',
           isOptional: dep.is_optional,
           meta,
+          resolveFrom: ['regenerator-runtime', '@swc/helpers'].includes(
+            dep.specifier,
+          )
+            ? __filename
+            : undefined,
         });
       }
     }
