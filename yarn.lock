@@ -2162,6 +2162,13 @@
   dependencies:
     "@octokit/openapi-types" "^6.2.0"
 
+"@parcel/fs-search@2.0.0-beta.2":
+  version "2.0.0-beta.2"
+  resolved "https://registry.npmjs.org/@parcel/fs-search/-/fs-search-2.0.0-beta.2.tgz#5318990644861933412332a060ba1daeba15ba10"
+  integrity sha512-JlbkbzBxPEsjRSh/Vl3ZZQiX6XFChNdDKddEqQX5zWTzNa80Kd7Ue5nVTnnQLTKZ2lcimEAxfCHC4vG+53+qrA==
+  dependencies:
+    detect-libc "^1.0.3"
+
 "@parcel/source-map@2.0.0-alpha.4.21":
   version "2.0.0-alpha.4.21"
   resolved "https://registry.yarnpkg.com/@parcel/source-map/-/source-map-2.0.0-alpha.4.21.tgz#608f37fefe05ba1d8a8527ca0f3a8487560d4695"
